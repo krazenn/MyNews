@@ -5,28 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/activity_main_drawer_news"
+            android:id="@+id/activity_main_drawer_top_stories"
             android:icon="@drawable/ic_dashboard_white_24dp"
-            android:title="Fil d'actualité" />
-        <item android:title="Arts"></item>
-        <item android:title="Business"></item>
-        <item android:title="Entrepreneurs"></item>
-        <item android:title="Politics"></item>
-        <item android:title="Sports"></item>
-        <item android:title="Travel"></item>
+            android:title="Tops Stories" />
+        <item
+            android:id="@+id/activity_main_drawer_most_popular"
+            android:title="MostPopular" />
+        <item
+            android:id="@+id/activity_main_drawer_arts"
+            android:title="Arts" />
+        <item
+            android:id="@+id/activity_main_drawer_business"
+            android:title="Business" />
+        <item
+            android:id="@+id/activity_main_drawer_travel"
+            android:title="Travel" />
         </group>
 
     <item android:title="Configuration">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/activity_main_drawer_profile"
-                    android:icon="@drawable/ic_account_box_white_24dp"
-                    android:title="Profil" />
-                <item
-                    android:id="@+id/activity_main_drawer_settings"
+                    android:id="@+id/activity_main_drawer_notification"
                     android:icon="@drawable/ic_settings_applications_white_24dp"
-                    android:title="Paramètres" />
+                    android:title="Notifications" />
+                <item
+                    android:id="@+id/activity_main_drawer_search"
+                    android:title="Search" />
             </group>
         </menu>
     </item>

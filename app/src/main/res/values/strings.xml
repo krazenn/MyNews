@@ -7,4 +7,24 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="enable_notifications_once_per_day">Enable notifications (once per day)</string>
+    <string name="travel">Travel</string>
+    <string name="entrepreneurs">Entrepreneurs</string>
+    <string name="sports">Sports</string>
+    <string name="business">Business</string>
+    <string name="politics">Politics</string>
+    <string name="search_query_term">Search query term</string>
+    <string name="search">Search</string>
+
+    <string-array name="start_date_array">
+        <item>Select date</item>
+
+    </string-array>
+
+    <string-array name="end_date_array">
+        <item>Select date</item>
+    </string-array>
+    <string name="title_activity_notification">NotificationActivity</string>
+
 </resources>

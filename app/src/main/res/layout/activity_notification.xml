@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_text_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:hint="Search query term" />
+
+    <TableRow
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <CheckBox
+            android:id="@+id/arts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arts" />
+
+        <CheckBox
+            android:id="@+id/politics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/politics" />
+    </TableRow>
+
+    <TableRow
+        android:gravity="center_horizontal"
+        android:padding="5dp">
+
+        <CheckBox
+            android:id="@+id/business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/business" />
+
+        <CheckBox
+            android:id="@+id/sport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/sports" />
+    </TableRow>
+
+    <TableRow
+        android:gravity="center_horizontal"
+        android:padding="5dp">
+
+        <CheckBox
+            android:id="@+id/entrepreneurs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entrepreneurs" />
+
+        <CheckBox
+            android:id="@+id/travel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/travel" />
+    </TableRow>
+
+    <LinearLayout android:orientation="vertical">
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="@string/enable_notifications_once_per_day" />
+    </LinearLayout>
+
+
+</TableLayout>
+
+

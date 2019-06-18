@@ -1,5 +1,6 @@
 package com.example.krazenn.mynews.Controllers;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -11,9 +12,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
-import com.example.krazenn.mynews.PageAdapter;
+import com.example.krazenn.mynews.View.PageAdapter;
 import com.example.krazenn.mynews.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ViewPager pager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +61,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         switch (id){
-            case R.id.activity_main_drawer_news :
+            case R.id.activity_main_drawer_top_stories:
+                pager.setCurrentItem(0, true);
+                Toast.makeText(this, "Top Stories", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.activity_main_drawer_profile:
+            case R.id.activity_main_drawer_most_popular:
+                pager.setCurrentItem(1, true);
+                Toast.makeText(this, "Most Popular", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.activity_main_drawer_settings:
+            case R.id.activity_main_drawer_arts:
+                pager.setCurrentItem(2, true);
+                Toast.makeText(this, "Arts", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.activity_main_drawer_business:
+                Toast.makeText(this, "Business", Toast.LENGTH_LONG).show();
+                pager.setCurrentItem(3, true);
+                break;
+            case R.id.activity_main_drawer_travel:
+                Toast.makeText(this, "Travel", Toast.LENGTH_LONG).show();
+                pager.setCurrentItem(4, true);
+                break;
+            case R.id.activity_main_drawer_notification:
+                Toast.makeText(this, "sports", Toast.LENGTH_LONG).show();
+
+                break;
+            case R.id.activity_main_drawer_search:
+                Toast.makeText(this, "travel", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
         }
 
         this.drawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
 
@@ -98,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureViewPagerAndTabs(){
         //Get ViewPager from layout
-        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        pager = findViewById(R.id.activity_main_viewpager);
         //Set Adapter PageAdapter and glue it together
         pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
 
@@ -109,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 3 - Design purpose. Tabs have the same width
         tabs.setTabMode(TabLayout.MODE_FIXED);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,10 +146,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //3 - Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.menu_activity_main_params:
-                Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.menu_activity_main_search:
-                Toast.makeText(this, "Recherche indisponible, demandez plutôt l'avis de Google, c'est mieux et plus rapide.", Toast.LENGTH_LONG).show();
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
