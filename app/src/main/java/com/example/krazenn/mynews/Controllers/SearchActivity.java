@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -25,7 +26,22 @@ public class SearchActivity extends Activity {
     EditText editTextEndDate;
     @BindView(R.id.buttonSearch)
     Button buttonSearch;
+    @BindView(R.id.checkbox_arts)
+    CheckBox checkBoxArts;
+    @BindView(R.id.checkbox_business)
+    CheckBox checkBoxBusiness;
+    @BindView(R.id.checkbox_entrepreneurs)
+    CheckBox checkBoxEntrepreneur;
+    @BindView(R.id.checkbox_politics)
+    CheckBox checkBoxPolitics;
+    @BindView(R.id.checkbox_sport)
+    CheckBox checkBoxSport;
+    @BindView(R.id.checkbox_travel)
+    CheckBox checkBoxTravel;
+
+
     String input_search;
+
     Bundle bundle;
 
 

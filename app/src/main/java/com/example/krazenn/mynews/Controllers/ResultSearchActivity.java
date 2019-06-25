@@ -1,23 +1,21 @@
 package com.example.krazenn.mynews.Controllers;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
-import com.example.krazenn.mynews.Controllers.Fragment.PageFragment;
 import com.example.krazenn.mynews.Models.ArticleList;
-import com.example.krazenn.mynews.Models.ResultMostPopular;
+import com.example.krazenn.mynews.Models.Search.Doc;
 import com.example.krazenn.mynews.R;
 import com.example.krazenn.mynews.Utils.ItemClickSupport;
 import com.example.krazenn.mynews.Utils.NyStreams;
-import com.example.krazenn.mynews.View.NyTimesArticleAdapter;
+import com.example.krazenn.mynews.View.NyTimesArticleSearchAdapter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -34,11 +32,10 @@ public class ResultSearchActivity extends AppCompatActivity {
     RecyclerView recyclerView; // 1 - Declare RecyclerView
     @BindView(R.id.fragment_main_swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
-    List<ResultMostPopular> resultMostPopulars;
+    List<Doc> resultMostPopulars;
     Gson gson = new Gson();
     String inputSearch = "";
-    PageFragment pageFragment = new PageFragment();
-    NyTimesArticleAdapter adapter;
+    NyTimesArticleSearchAdapter adapter;
     Intent intent = getIntent();
     private Disposable disposable;
 
@@ -63,7 +60,7 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         this.resultMostPopulars = new ArrayList<>();
         // 3.2 - Create adapter passing the list of article
-        this.adapter = new NyTimesArticleAdapter(this.resultMostPopulars, Glide.with(this));
+        this.adapter = new NyTimesArticleSearchAdapter(resultMostPopulars, Glide.with(this));
         // 3.3 - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
         // 3.4 - Set layout manager to position the items
@@ -91,7 +88,7 @@ public class ResultSearchActivity extends AppCompatActivity {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
-                        String url = resultMostPopulars.get(position).getUrl();
+                        String url = resultMostPopulars.get(position).getWebUrl();
                         Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                         intent.putExtra("url", url);
                         startActivity(intent);

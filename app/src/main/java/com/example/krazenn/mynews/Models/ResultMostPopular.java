@@ -49,6 +49,18 @@ public class ResultMostPopular {
     private List<Medium> media = null;
     private String ImageUrl = null;
 
+    @SerializedName("snippet")
+    @Expose
+    private String snippet;
+
+    public String getSnippet() {
+        return snippet;
+    }
+
+    public void setSnippet(String snippet) {
+        this.snippet = snippet;
+    }
+
     public String getShort_url() {
         return short_url;
     }

@@ -12,7 +12,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     //Default Constructor
 
     // 1 - Array of colors that will be passed to PageFragment
-    private String[] title = {"Top stories", "Most Popular", "Arts", "Business", "Travel"};
+    private String[] title = {"Top stories", "Most Popular", "Business"};
 
     // 2 - Default Constructor
     public PageAdapter(FragmentManager mgr) {

@@ -1,5 +1,6 @@
 package com.example.krazenn.mynews.Models;
 
+import com.example.krazenn.mynews.Models.Search.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -20,24 +21,23 @@ public class ArticleList {
     @SerializedName("results")
     @Expose
     private List<ResultMostPopular> results = null;
+
     @SerializedName("response")
     @Expose
-    private ArticleList response;
+    private Response response;
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
+    }
     @SerializedName("docs")
     @Expose
     private List<ResultMostPopular> docs = null;
 
-    public ArticleList getResponse() {
-        return response;
-    }
 
-    public void setResponse(List<ResultMostPopular> docs) {
-        this.response = response;
-    }
-
-    public void setResponse(ArticleList response) {
-        this.response = response;
-    }
 
     public List<ResultMostPopular> getDocs() {
         return docs;

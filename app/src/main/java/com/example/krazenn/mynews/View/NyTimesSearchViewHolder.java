@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.example.krazenn.mynews.Models.ResultMostPopular;
+import com.example.krazenn.mynews.Models.Search.Doc;
 import com.example.krazenn.mynews.R;
 
 import butterknife.BindView;
@@ -27,22 +27,17 @@ public class NyTimesSearchViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithArticle(ResultMostPopular resultMostPopular, RequestManager glide) {
+    public void updateWithArticle(Doc resultSearch, RequestManager glide) {
 
-        textViewSection.setText(resultMostPopular.getSource());
-        if (resultMostPopular.getMedia() != null) {
-            url = resultMostPopular.getMedia().get(0).getMediaMetadata().get(0).getUrl();
 
+        textViewTitle.setText(resultSearch.getSource());
+        textViewSection.setText(resultSearch.getLeadParagraph());
+        if (!resultSearch.getMultimedia().isEmpty()) {
+            url = resultSearch.getMultimedia().get(0).getUrl();
         }
-
-        if (resultMostPopular.getMultimedia() != null && !resultMostPopular.getMultimedia().isEmpty()) {
-
-            url = resultMostPopular.getMultimedia().get(0).getUrl();
-
+        if (url != null) {
+            glide.load("https://static01.nyt.com/" + url).into(imageViewArticle);
         }
-
-
-        glide.load(url).into(imageViewArticle);
 
 
     }

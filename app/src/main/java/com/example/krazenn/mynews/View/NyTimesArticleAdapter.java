@@ -2,7 +2,6 @@ package com.example.krazenn.mynews.View;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.RequestManager;
 import com.example.krazenn.mynews.Models.ResultMostPopular;
 import com.example.krazenn.mynews.R;
-
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -40,12 +38,8 @@ public class NyTimesArticleAdapter extends RecyclerView.Adapter<NyTimesViewHolde
     // UPDATE VIEW HOLDER WITH A ARTICLE
     @Override
     public void onBindViewHolder(NyTimesViewHolder viewHolder, int position) {
-        ResultMostPopular resultMostPopulars;
+
         viewHolder.updateWithArticle(this.mostPopularList.get(position), this.glide);
-        resultMostPopulars = mostPopularList.get(position);
-
-
-        Log.e("ADAPTER", resultMostPopulars.getTitle());
 
 
     }

@@ -43,13 +43,13 @@
         android:padding="5dp">
 
         <CheckBox
-            android:id="@+id/arts"
+            android:id="@+id/checkbox_arts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Arts" />
 
         <CheckBox
-            android:id="@+id/politics"
+            android:id="@+id/checkbox_politics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -61,13 +61,13 @@
         android:padding="5dp">
 
         <CheckBox
-            android:id="@+id/business"
+            android:id="@+id/checkbox_business"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/business" />
 
         <CheckBox
-            android:id="@+id/sport"
+            android:id="@+id/checkbox_sport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -79,13 +79,13 @@
         android:padding="5dp">
 
         <CheckBox
-            android:id="@+id/entrepreneurs"
+            android:id="@+id/checkbox_entrepreneurs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/entrepreneurs" />
 
         <CheckBox
-            android:id="@+id/travel"
+            android:id="@+id/checkbox_travel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
