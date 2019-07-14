@@ -26,6 +26,9 @@ public class ResultMostPopular {
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("subsection")
+    @Expose
+    private String subsection;
     @SerializedName("abstract")
     @Expose
     private String _abstract;
@@ -38,6 +41,7 @@ public class ResultMostPopular {
     @SerializedName("short_url")
     @Expose
     private String short_url;
+
     @SerializedName("multimedia")
     @Expose
     private List<Medium> multimedia = null;
@@ -52,6 +56,25 @@ public class ResultMostPopular {
     @SerializedName("snippet")
     @Expose
     private String snippet;
+    @SerializedName("updated_date")
+    @Expose
+    private String updated_date;
+
+    public String getUpdated_date() {
+        return updated_date;
+    }
+
+    public void setUpdated_date(String updated_date) {
+        this.updated_date = updated_date;
+    }
+
+    public String getSubsection() {
+        return subsection;
+    }
+
+    public void setSubsection(String subsection) {
+        this.subsection = subsection;
+    }
 
     public String getSnippet() {
         return snippet;

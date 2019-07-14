@@ -82,7 +82,7 @@ public class PageFragment extends Fragment {
         position = getArguments().getInt(KEY_POSITION, 0);
         this.configureSwipeRefreshLayout();
 
-        this.executeHttpRequestWithRetrofit(position);
+        this.executeHttpRequestWithRetrofit();
         configureOnClickRecyclerView();
 
         Log.e(getClass().getSimpleName(), "onCreateView called for fragment number " + position);
@@ -123,7 +123,7 @@ public class PageFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.e("SwipreRefresh", gson.toJson(position));
-                executeHttpRequestWithRetrofit(position);
+                executeHttpRequestWithRetrofit();
             }
         });
     }
@@ -144,15 +144,20 @@ public class PageFragment extends Fragment {
                 });
     }
 
-    private void executeHttpRequestWithRetrofit(int position) {
+    private void executeHttpRequestWithRetrofit() {
         Log.d("list2", gson.toJson(position));
         switch (position) {
             case 0:
                 executeHttpRequestWithRetrofitTopStories("home");
+                break;
 
             case 1:
                 executeHttpRequestWithRetrofitMostPopular();
                 Log.e(getClass().getSimpleName(), "" + position);
+                break;
+            case 2:
+                executeHttpRequestWithRetrofitTopStories("business");
+                break;
 
 
         }
@@ -206,31 +211,6 @@ public class PageFragment extends Fragment {
             }
         });
 
-    }
-
-    private void executeHttpRequestWithRetrofitSearch(String search) {
-        this.disposable = NyStreams.streamFetchArticleSearch(search, "hKPJScQIKlhcQ3V0GmlDulzquyM28AGL").subscribeWith(new DisposableObserver<ArticleList>() {
-
-
-            @Override
-            public void onNext(ArticleList articleLS) {
-                resultMostPopulars.clear();
-                resultMostPopulars = articleLS.getResults();
-                Log.d("list2", gson.toJson(articleLS.getResults()));
-
-                adapter.setData(resultMostPopulars);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        });
     }
 
     private void disposeWhenDestroy() {

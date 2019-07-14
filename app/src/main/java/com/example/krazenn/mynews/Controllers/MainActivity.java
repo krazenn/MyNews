@@ -1,6 +1,7 @@
 package com.example.krazenn.mynews.Controllers;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -8,15 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
-import com.example.krazenn.mynews.View.PageAdapter;
 import com.example.krazenn.mynews.R;
+import com.example.krazenn.mynews.View.PageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,24 +68,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 pager.setCurrentItem(1, true);
                 Toast.makeText(this, "Most Popular", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.activity_main_drawer_arts:
-                pager.setCurrentItem(2, true);
-                Toast.makeText(this, "Arts", Toast.LENGTH_LONG).show();
-                break;
+
             case R.id.activity_main_drawer_business:
                 Toast.makeText(this, "Business", Toast.LENGTH_LONG).show();
                 pager.setCurrentItem(3, true);
                 break;
-            case R.id.activity_main_drawer_travel:
-                Toast.makeText(this, "Travel", Toast.LENGTH_LONG).show();
-                pager.setCurrentItem(4, true);
-                break;
+
             case R.id.activity_main_drawer_notification:
-                Toast.makeText(this, "sports", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(intent);
 
                 break;
             case R.id.activity_main_drawer_search:
-                Toast.makeText(this, "travel", Toast.LENGTH_LONG).show();
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

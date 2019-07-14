@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -19,7 +18,9 @@ import com.example.krazenn.mynews.View.NyTimesArticleSearchAdapter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,9 +36,12 @@ public class ResultSearchActivity extends AppCompatActivity {
     List<Doc> resultMostPopulars;
     Gson gson = new Gson();
     String inputSearch = "";
+    String dateStart;
+    String dateEnd;
     NyTimesArticleSearchAdapter adapter;
     Intent intent = getIntent();
     private Disposable disposable;
+    Map<String, String> params = new HashMap<>();
 
 
     @Override
@@ -51,7 +55,7 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         this.configureSwipeRefreshLayout();
 
-        this.executeHttpRequestWithRetrofit();
+        this.executeHttpRequestWithRetrofitSearch();
         configureOnClickRecyclerView();
     }
 
@@ -76,7 +80,7 @@ public class ResultSearchActivity extends AppCompatActivity {
 
             @Override
             public void onRefresh() {
-                executeHttpRequestWithRetrofit();
+                executeHttpRequestWithRetrofitSearch();
             }
         });
     }
@@ -92,21 +96,25 @@ public class ResultSearchActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
                         intent.putExtra("url", url);
                         startActivity(intent);
-                        Log.e("TAG", "Position : " + url);
                     }
                 });
     }
 
-    private void executeHttpRequestWithRetrofit() {
+
+    private void executeHttpRequestWithRetrofitSearch() {
+        String section;
         intent = getIntent();
         inputSearch = intent.getStringExtra("input_search");
-        executeHttpRequestWithRetrofitSearch(inputSearch);
-
-    }
-
-
-    private void executeHttpRequestWithRetrofitSearch(String search) {
-        this.disposable = NyStreams.streamFetchArticleSearch(search, "hKPJScQIKlhcQ3V0GmlDulzquyM28AGL").subscribeWith(new DisposableObserver<ArticleList>() {
+        dateStart = intent.getStringExtra("date_start");
+        dateEnd = intent.getStringExtra("date_end");
+        section = intent.getStringExtra("section");
+        params.put("q", inputSearch);
+        if (dateStart != null) {
+            params.put("begin_date", dateStart);
+        }
+        //params.put("end_date", dateEnd);=
+        params.put("fq", "news_desk:(" + "Business" + ")");
+        this.disposable = NyStreams.streamFetchArticleSearch(params, "hKPJScQIKlhcQ3V0GmlDulzquyM28AGL").subscribeWith(new DisposableObserver<ArticleList>() {
 
 
             @Override
@@ -127,6 +135,12 @@ public class ResultSearchActivity extends AppCompatActivity {
             public void onComplete() {
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
     }
 
     private void disposeWhenDestroy() {

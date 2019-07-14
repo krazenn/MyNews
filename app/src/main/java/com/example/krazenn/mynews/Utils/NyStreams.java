@@ -2,6 +2,7 @@ package com.example.krazenn.mynews.Utils;
 
 import com.example.krazenn.mynews.Models.ArticleList;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -26,9 +27,9 @@ public class NyStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<ArticleList> streamFetchArticleSearch(String search, String key) {
+    public static Observable<ArticleList> streamFetchArticleSearch(Map map, String key) {
         NyTimesService nyTimesService = NyTimesService.retrofit.create(NyTimesService.class);
-        return nyTimesService.getArticleSearch(search, key)
+        return nyTimesService.getArticleSearch(map, key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

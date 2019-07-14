@@ -1,18 +1,19 @@
 package com.example.krazenn.mynews.View;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.krazenn.mynews.Models.ResultMostPopular;
 import com.example.krazenn.mynews.R;
-import com.google.gson.Gson;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NyTimesViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,7 +23,10 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
     TextView textViewSection;
     @BindView(R.id.img_article)
     ImageView imageViewArticle;
+    @BindView(R.id.txt_article_date)
+    TextView textViewDate;
     String url;
+
 
     public NyTimesViewHolder(View itemView) {
         super(itemView);
@@ -30,10 +34,18 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void updateWithArticle(ResultMostPopular resultMostPopular, RequestManager glide) {
+        String subsection = "";
+        String date;
+        date = resultMostPopular.getPublishedDate().split("T")[0];
 
-        this.textViewTitle.setText(resultMostPopular.getTitle());
-        textViewSection.setText(resultMostPopular.getSection());
-        if (resultMostPopular.getMedia() != null) {
+        if (resultMostPopular.getSubsection() != null && !resultMostPopular.getSubsection().isEmpty()) {
+            subsection = " > " + resultMostPopular.getSubsection();
+        }
+
+        this.textViewTitle.setText(resultMostPopular.getSection() + subsection);
+        textViewDate.setText(date);
+        textViewSection.setText(resultMostPopular.getTitle());
+        if (resultMostPopular.getMedia() != null && !resultMostPopular.getMedia().isEmpty()) {
             url = resultMostPopular.getMedia().get(0).getMediaMetadata().get(0).getUrl();
 
         }
@@ -44,8 +56,10 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
 
         }
 
+        Glide.with(itemView.getContext()).load(url).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.ic_launcher_background)).into(imageViewArticle);
 
-        glide.load(url).into(imageViewArticle);
+
+
 
 
     }
