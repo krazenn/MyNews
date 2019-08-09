@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.krazenn.mynews.Models.ResultMostPopular;
 import com.example.krazenn.mynews.R;
@@ -25,7 +24,6 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
     ImageView imageViewArticle;
     @BindView(R.id.txt_article_date)
     TextView textViewDate;
-    String url;
 
 
     public NyTimesViewHolder(View itemView) {
@@ -36,6 +34,9 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
     public void updateWithArticle(ResultMostPopular resultMostPopular, RequestManager glide) {
         String subsection = "";
         String date;
+        String url = "";
+
+        //split date for delete clock
         date = resultMostPopular.getPublishedDate().split("T")[0];
 
         if (resultMostPopular.getSubsection() != null && !resultMostPopular.getSubsection().isEmpty()) {
@@ -56,11 +57,7 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
 
         }
 
-        Glide.with(itemView.getContext()).load(url).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.ic_launcher_background)).into(imageViewArticle);
-
-
-
-
+        Glide.with(itemView.getContext()).load(url).apply(new RequestOptions().placeholder(R.drawable.ic_launcher_background)).into(imageViewArticle);
 
     }
 }

@@ -1,6 +1,7 @@
 package com.example.krazenn.mynews.Utils;
 
 
+import com.example.krazenn.mynews.CustomHttpClient;
 import com.example.krazenn.mynews.Models.ArticleList;
 
 import java.util.Map;
@@ -16,12 +17,12 @@ import retrofit2.http.QueryMap;
 
 public interface NyTimesService {
 
-
     String API_KEY = "api-key=hKPJScQIKlhcQ3V0GmlDulzquyM28AGL";
-    public static final Retrofit retrofit = new Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(CustomHttpClient.getCustomClient())
             .build();
 
     @GET("svc/mostpopular/v2/viewed/7.json?api-key=hKPJScQIKlhcQ3V0GmlDulzquyM28AGL")

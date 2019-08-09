@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.krazenn.mynews.Models.Search.Doc;
 import com.example.krazenn.mynews.R;
 
@@ -20,7 +22,8 @@ public class NyTimesSearchViewHolder extends RecyclerView.ViewHolder {
     TextView textViewSection;
     @BindView(R.id.img_article)
     ImageView imageViewArticle;
-    String url;
+    String url = "";
+    String staticUrl = "";
 
     public NyTimesSearchViewHolder(View itemView) {
         super(itemView);
@@ -35,10 +38,10 @@ public class NyTimesSearchViewHolder extends RecyclerView.ViewHolder {
         if (!resultSearch.getMultimedia().isEmpty()) {
             url = resultSearch.getMultimedia().get(0).getUrl();
         }
-        if (url != null) {
-            glide.load("https://static01.nyt.com/" + url).into(imageViewArticle);
+
+        if (!url.isEmpty()) {
+            staticUrl = "https://static01.nyt.com/";
         }
-
-
+        Glide.with(itemView.getContext()).load(staticUrl + url).apply(new RequestOptions().placeholder(R.drawable.ic_launcher_background)).into(imageViewArticle);
     }
 }

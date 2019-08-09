@@ -3,6 +3,7 @@ package com.example.krazenn.mynews.Controllers;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,12 +11,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import com.example.krazenn.mynews.R;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -42,18 +45,20 @@ public class SearchActivity extends Activity {
     CheckBox checkBoxSport;
     @BindView(R.id.checkbox_travel)
     CheckBox checkBoxTravel;
+    @BindView(R.id.btn_switch_notification)
+    Switch btnSwitchNotification;
 
-    String[] selectSectionList;
+
     String input_search;
     String dateStart;
     String dateEnd;
-    String section;
+    String section = "";
     String date;
-    Map<String, String> listSection;
-    Bundle bundle;
+    SharedPreferences sharedPreferences;
+
     ArrayList<Map<String, String>> listItem = new ArrayList<Map<String, String>>();
 
-    Map<String, String> map;
+    Map<String, String> map = new HashMap<>();
 
 
     @Override
@@ -62,8 +67,8 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
 
+        btnSwitchNotification.setVisibility(View.INVISIBLE);
 
-        selectSectionList = new String[6];
         editTextStartDate = findViewById(R.id.edit_text_start_date);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,72 +104,52 @@ public class SearchActivity extends Activity {
 
     }
 
+
     public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        Gson gson = new Gson();
-        boolean checked = ((CheckBox) view).isChecked();
+
+        List<String> listSection = new ArrayList<>();
 
         // Check which checkbox was clicked
 
         if (checkBoxArts.isChecked()) {
-
-            listItem.add("section", "arts");
-        }
-        switch (view.getId()) {
-
-            case R.id.checkbox_business:
-                if (checked) {
-                    map.put("section", "arts");
-                } else {
-                    selectSectionList[1] = null;
-                }
-                break;
-            case R.id.checkbox_entrepreneurs:
-                if (checked) {
-                    selectSectionList[2] = checkBoxEntrepreneur.getText().toString();
-
-                } else {
-                    selectSectionList[2] = null;
-                }
-                break;
-            case R.id.checkbox_politics:
-                if (checked) {
-                    selectSectionList[3] = checkBoxPolitics.getText().toString();
-
-                } else {
-                    selectSectionList[3] = null;
-                }
-                break;
-            case R.id.checkbox_sport:
-                if (checked) {
-                    selectSectionList[4] = checkBoxSport.getText().toString();
-
-                } else {
-                    selectSectionList[4] = null;
-                }
-                break;
-            case R.id.checkbox_travel:
-                if (checked) {
-                    selectSectionList[5] = checkBoxTravel.getText().toString();
-
-                } else {
-                    selectSectionList[5] = null;
-                }
-                break;
-
+            listSection.add("Arts");
         }
 
-        listItem.add(map);
-        Log.e("list", section);
+        if (checkBoxBusiness.isChecked()) {
+            listSection.add("Business");
+        }
 
+        if (checkBoxEntrepreneur.isChecked()) {
+            listSection.add("Entrepreneurs");
+        }
+
+        if (checkBoxPolitics.isChecked()) {
+            listSection.add("Politics");
+        }
+
+        if (checkBoxSport.isChecked()) {
+            listSection.add("Sports");
+        }
+
+        if (checkBoxTravel.isChecked()) {
+            listSection.add("Travel");
+        }
+        section = "";
+
+        for (int i = 0; i < listSection.size(); i++) {
+            section += "\"" + listSection.get(i) + "\"";
+
+        }
+        Log.e("section", section);
     }
 
-    private void openDatePickerToEditText(final EditText editText, Boolean startDate) {
+
+    private void openDatePickerToEditText(final EditText editText, final Boolean startDate) {
         DatePickerDialog datePickerDialog;
 
         final Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
 
         // date picker dialog
@@ -172,22 +157,24 @@ public class SearchActivity extends Activity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String monthFormat = String.format("%02d", monthOfYear + 1);
+                        String dayFormat = String.format("%02d", dayOfMonth);
                         editText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        if (startDate) {
+                            dateStart = String.valueOf(year) + String.valueOf(monthFormat) + String.valueOf(dayFormat);
+                            Log.e("date1", dateStart);
+                        } else {
+                            dateEnd = String.valueOf(year) + String.valueOf(monthFormat) + String.valueOf(dayFormat);
+                            Log.e("date2", dateEnd);
+                        }
 
                     }
 
                 }, year, month, day);
 
         datePickerDialog.show();
-        String monthFormat = String.format("%02d", month + 1);
-        String dayFormat = String.format("%02d", day);
-        if (startDate == true) {
-            dateStart = String.valueOf(year) + String.valueOf(monthFormat) + String.valueOf(dayFormat);
-            Log.e("date1", dateStart);
-        } else {
-            dateEnd = String.valueOf(year) + String.valueOf(monthFormat) + String.valueOf(dayFormat);
-            Log.e("date2", dateEnd);
-        }
+
+
 
 
 

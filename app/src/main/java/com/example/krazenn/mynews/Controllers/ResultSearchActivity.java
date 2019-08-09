@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -111,17 +112,22 @@ public class ResultSearchActivity extends AppCompatActivity {
         params.put("q", inputSearch);
         if (dateStart != null) {
             params.put("begin_date", dateStart);
-        }
-        //params.put("end_date", dateEnd);=
-        params.put("fq", "news_desk:(" + "Business" + ")");
-        this.disposable = NyStreams.streamFetchArticleSearch(params, "hKPJScQIKlhcQ3V0GmlDulzquyM28AGL").subscribeWith(new DisposableObserver<ArticleList>() {
 
+        }
+        if (dateEnd != null) {
+            params.put("end_date", dateEnd);
+
+        }
+        if (!section.isEmpty()) {
+            params.put("fq", "news_desk:(" + section + ")");
+            Log.e("sectionResult,", section);
+        }
+        this.disposable = NyStreams.streamFetchArticleSearch(params, "hKPJScQIKlhcQ3V0GmlDulzquyM28AGL").subscribeWith(new DisposableObserver<ArticleList>() {
 
             @Override
             public void onNext(ArticleList articleLS) {
                 resultMostPopulars.clear();
                 resultMostPopulars = articleLS.getResponse().getDocs();
-
                 adapter.setData(resultMostPopulars);
                 swipeRefreshLayout.setRefreshing(false);
             }
