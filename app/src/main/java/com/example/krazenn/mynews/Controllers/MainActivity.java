@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ViewPager pager;
+    int itemId;
 
 
     @Override
@@ -75,12 +76,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.activity_main_drawer_notification:
-                Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                itemId = 0;
+                intent.putExtra("tab", itemId);
                 startActivity(intent);
 
                 break;
             case R.id.activity_main_drawer_search:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
+                itemId = 1;
+                intent.putExtra("tab", itemId);
                 startActivity(intent);
                 break;
             default:
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //3 - Handle actions on menu items
-        int itemId;
+
 
         switch (item.getItemId()) {
             case R.id.menu_activity_main_params:
