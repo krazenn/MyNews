@@ -20,12 +20,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controllers.SearchActivity" />
+        <activity
+            android:name=".Controllers.SearchActivity"
+            android:label="Search"
+            android:parentActivityName=".Controllers.SearchActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.MainActivity" />
+        </activity>
         <activity android:name=".Controllers.WebViewActivity" />
         <activity
             android:name=".Controllers.NotificationActivity"
-            android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme" />
+            android:label="@string/title_activity_notification" />
         <activity android:name=".Controllers.ResultSearchActivity"></activity>
 
         <receiver

@@ -52,7 +52,6 @@ public class PageFragment extends Fragment {
     public PageFragment() {
     }
 
-
     // 2 - Method that will create a new instance of PageFragment, and add data to its bundle.
     public static PageFragment newInstance(int position) {
 
@@ -145,6 +144,7 @@ public class PageFragment extends Fragment {
     }
 
     private void executeHttpRequestWithRetrofit() {
+
         Log.d("list2", gson.toJson(position));
         switch (position) {
             case 0:

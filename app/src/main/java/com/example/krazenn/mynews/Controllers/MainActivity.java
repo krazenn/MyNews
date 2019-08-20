@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // 1 - Configure Toolbar
     private void configureToolBar(){
-        this.toolbar = findViewById(R.id.activity_main_toolbar);
+        this.toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
     }
 
@@ -139,13 +139,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //3 - Handle actions on menu items
+        int itemId;
+
         switch (item.getItemId()) {
             case R.id.menu_activity_main_params:
-                Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                itemId = 0;
+                intent.putExtra("tab", itemId);
                 startActivity(intent);
                 return true;
             case R.id.menu_activity_main_search:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
+                itemId = 1;
+                intent.putExtra("tab", itemId);
                 startActivity(intent);
                 return true;
             default:

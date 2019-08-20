@@ -34,6 +34,7 @@ public class ResultSearchActivity extends AppCompatActivity {
     RecyclerView recyclerView; // 1 - Declare RecyclerView
     @BindView(R.id.fragment_main_swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
+
     List<Doc> resultMostPopulars;
     Gson gson = new Gson();
     String inputSearch = "";
