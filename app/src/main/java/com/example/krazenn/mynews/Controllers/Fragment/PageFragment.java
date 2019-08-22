@@ -48,12 +48,12 @@ public class PageFragment extends Fragment {
     private NyTimesArticleAdapter adapter;
 
     RequestRetrofit requestRetrofit = new RequestRetrofit();
+
     public PageFragment() {
     }
 
     // 2 - Method that will create a new instance of PageFragment, and add data to its bundle.
     public static PageFragment newInstance(int position) {
-
 
         // 2.1 Create new fragment
         PageFragment frag = new PageFragment();
@@ -65,7 +65,6 @@ public class PageFragment extends Fragment {
 
         return (frag);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +78,7 @@ public class PageFragment extends Fragment {
 
         position = getArguments().getInt(KEY_POSITION, 0);
         this.configureSwipeRefreshLayout();
-
+        retrofitListener();
         this.executeHttpRequestWithRetrofit();
         configureOnClickRecyclerView();
 
@@ -111,16 +110,13 @@ public class PageFragment extends Fragment {
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    // -------------------
-    // HTTP (RxJAVA)
-    // -------------------
-    // 2 - Configure the SwipeRefreshLayout
+
+    //  Configure the SwipeRefreshLayout
     private void configureSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-                Log.e("SwipreRefresh", gson.toJson(position));
                 executeHttpRequestWithRetrofit();
             }
         });
@@ -144,29 +140,21 @@ public class PageFragment extends Fragment {
 
     private void executeHttpRequestWithRetrofit() {
 
-        Log.d("list2", gson.toJson(position));
         switch (position) {
             case 0:
-                retrofitListener();
                 requestRetrofit.executeHttpRequestWithRetrofitTopStories("home");
                 break;
-
             case 1:
-                retrofitListener();
                 requestRetrofit.executeHttpRequestWithRetrofitMostPopular();
-                Log.e(getClass().getSimpleName(), "" + position);
                 break;
             case 2:
-                retrofitListener();
                 requestRetrofit.executeHttpRequestWithRetrofitTopStories("business");
                 break;
-
-
         }
     }
 
-
-    void retrofitListener() {
+    //Setup Retrofit Listener
+    private void retrofitListener() {
         requestRetrofit.setListener(new RequestRetrofit.RequestListener() {
             @Override
             public void onReceive(ArticleList articleLS) {
@@ -176,7 +164,6 @@ public class PageFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
     }
 
     private void disposeWhenDestroy() {
