@@ -13,14 +13,14 @@
         android:id="@+id/edit_text_search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:hint="Search query term" />
 
     <LinearLayout
         android:id="@+id/table_row_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal">
 
         <EditText
@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <TableRow
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:padding="5dp">
 

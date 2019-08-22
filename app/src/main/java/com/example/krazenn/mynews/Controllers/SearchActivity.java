@@ -110,7 +110,6 @@ public class SearchActivity extends AppCompatActivity {
         }
         if (itemId == 1) {
             btnSwitchNotification.setVisibility(View.GONE);
-            editTextStartDate = findViewById(R.id.edit_text_start_date);
             buttonSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
