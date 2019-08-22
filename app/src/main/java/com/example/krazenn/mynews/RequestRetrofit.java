@@ -1,7 +1,5 @@
 package com.example.krazenn.mynews;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import com.example.krazenn.mynews.Models.ArticleList;
 import com.example.krazenn.mynews.Models.ResultMostPopular;
 import com.example.krazenn.mynews.Utils.NyStreams;
@@ -16,19 +14,18 @@ public class RequestRetrofit {
     public Disposable disposable;
     public List<ResultMostPopular> resultMostPopulars;
     public NyTimesArticleAdapter adapter;
+    public RequestListener listener;
 
-    SwipeRefreshLayout swipeRefreshLayout;
+    public void setListener(RequestListener listener) {
+        this.listener = listener;
+    }
 
     public void executeHttpRequestWithRetrofitMostPopular() {
         this.disposable = NyStreams.streamFetchArticleMostPopular().subscribeWith(new DisposableObserver<ArticleList>() {
 
             @Override
             public void onNext(ArticleList articleLS) {
-                resultMostPopulars.clear();
-                resultMostPopulars = articleLS.getResults();
-
-                adapter.setData(resultMostPopulars);
-                swipeRefreshLayout.setRefreshing(false);
+                listener.onReceive(articleLS);
             }
 
             @Override
@@ -50,12 +47,7 @@ public class RequestRetrofit {
 
             @Override
             public void onNext(ArticleList articleLS) {
-                resultMostPopulars.clear();
-                resultMostPopulars = articleLS.getResults();
-
-
-                adapter.setData(resultMostPopulars);
-                swipeRefreshLayout.setRefreshing(false);
+                listener.onReceive(articleLS);
             }
 
             @Override
@@ -67,6 +59,10 @@ public class RequestRetrofit {
             public void onComplete() {
             }
         });
+    }
+
+    public interface RequestListener {
+        void onReceive(ArticleList articleLS);
     }
 
 }

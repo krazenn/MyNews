@@ -16,8 +16,8 @@ import com.example.krazenn.mynews.Controllers.WebViewActivity;
 import com.example.krazenn.mynews.Models.ArticleList;
 import com.example.krazenn.mynews.Models.ResultMostPopular;
 import com.example.krazenn.mynews.R;
+import com.example.krazenn.mynews.RequestRetrofit;
 import com.example.krazenn.mynews.Utils.ItemClickSupport;
-import com.example.krazenn.mynews.Utils.NyStreams;
 import com.example.krazenn.mynews.View.NyTimesArticleAdapter;
 import com.google.gson.Gson;
 
@@ -27,7 +27,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 
 public class PageFragment extends Fragment {
@@ -48,7 +47,7 @@ public class PageFragment extends Fragment {
     private List<ResultMostPopular> resultMostPopulars;
     private NyTimesArticleAdapter adapter;
 
-
+    RequestRetrofit requestRetrofit = new RequestRetrofit();
     public PageFragment() {
     }
 
@@ -148,66 +147,33 @@ public class PageFragment extends Fragment {
         Log.d("list2", gson.toJson(position));
         switch (position) {
             case 0:
-                executeHttpRequestWithRetrofitTopStories("home");
+                retrofitListener();
+                requestRetrofit.executeHttpRequestWithRetrofitTopStories("home");
                 break;
 
             case 1:
-                executeHttpRequestWithRetrofitMostPopular();
+                retrofitListener();
+                requestRetrofit.executeHttpRequestWithRetrofitMostPopular();
                 Log.e(getClass().getSimpleName(), "" + position);
                 break;
             case 2:
-                executeHttpRequestWithRetrofitTopStories("business");
+                retrofitListener();
+                requestRetrofit.executeHttpRequestWithRetrofitTopStories("business");
                 break;
 
 
         }
     }
 
-    private void executeHttpRequestWithRetrofitTopStories(String section) {
 
-        this.disposable = NyStreams.streamFetchArticleTopStories(section).subscribeWith(new DisposableObserver<ArticleList>() {
-
-
+    void retrofitListener() {
+        requestRetrofit.setListener(new RequestRetrofit.RequestListener() {
             @Override
-            public void onNext(ArticleList articleLS) {
+            public void onReceive(ArticleList articleLS) {
                 resultMostPopulars.clear();
                 resultMostPopulars = articleLS.getResults();
-
-
                 adapter.setData(resultMostPopulars);
                 swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        });
-    }
-
-    private void executeHttpRequestWithRetrofitMostPopular() {
-        this.disposable = NyStreams.streamFetchArticleMostPopular().subscribeWith(new DisposableObserver<ArticleList>() {
-
-            @Override
-            public void onNext(ArticleList articleLS) {
-                resultMostPopulars.clear();
-                resultMostPopulars = articleLS.getResults();
-
-                adapter.setData(resultMostPopulars);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {
             }
         });
 
