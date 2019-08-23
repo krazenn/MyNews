@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,8 @@ public class PageFragment extends Fragment {
     RecyclerView recyclerView; // 1 - Declare RecyclerView
     @BindView(R.id.fragment_main_swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.app_bar)
+    Toolbar toolbar;
     List<ResultMostPopular> mNews;
     Gson gson = new Gson();
     int position;
@@ -74,6 +77,7 @@ public class PageFragment extends Fragment {
 
         // 4 - Get widgets from layout and serialise it
         ButterKnife.bind(this, view);
+        toolbar.setVisibility(View.GONE);
         this.configureRecyclerView(); // - 4 Call during UI creation
 
         position = getArguments().getInt(KEY_POSITION, 0);

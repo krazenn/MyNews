@@ -3,9 +3,11 @@ package com.example.krazenn.mynews.Controllers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -51,7 +53,7 @@ public class ResultSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
         ButterKnife.bind(this);
-
+        this.configureToolbar();
 
         this.configureRecyclerView(); // - 4 Call during UI creation
 
@@ -61,6 +63,16 @@ public class ResultSearchActivity extends AppCompatActivity {
         configureOnClickRecyclerView();
     }
 
+    private void configureToolbar() {
+        //Get the toolbar (Serialise)
+        Toolbar toolbar = findViewById(R.id.app_bar);
+        //Set the toolbar
+        setSupportActionBar(toolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
     private void configureRecyclerView() {
         // 3.1 - Reset list=
 

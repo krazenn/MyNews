@@ -31,10 +31,17 @@
                 android:value=".Controllers.MainActivity" />
         </activity>
         <activity android:name=".Controllers.WebViewActivity" />
+
         <activity
-            android:name=".Controllers.NotificationActivity"
-            android:label="@string/title_activity_notification" />
-        <activity android:name=".Controllers.ResultSearchActivity"></activity>
+            android:name=".Controllers.ResultSearchActivity"
+            android:label="Result"
+            android:parentActivityName=".Controllers.ResultSearchActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.SearchActivity" />
+        </activity>
 
         <receiver
             android:name=".Utils.MyAlarmReceiver"

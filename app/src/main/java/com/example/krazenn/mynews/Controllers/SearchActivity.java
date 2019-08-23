@@ -155,8 +155,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void onCheckboxClicked(View view) {
-
+        Gson gson = new Gson();
         List<String> listSection = new ArrayList<>();
+        List<String> listSectionNotification = new ArrayList<>();
 
         // Check which checkbox was clicked
 
@@ -187,8 +188,10 @@ public class SearchActivity extends AppCompatActivity {
 
         for (int i = 0; i < listSection.size(); i++) {
             section += "\"" + listSection.get(i) + "\"";
-
         }
+        listSectionNotification = listSection;
+
+
         Log.e("section", section);
     }
 
