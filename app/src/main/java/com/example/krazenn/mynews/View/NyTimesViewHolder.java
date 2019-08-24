@@ -11,6 +11,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.krazenn.mynews.Models.ResultMostPopular;
 import com.example.krazenn.mynews.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,7 +41,8 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
         String url = "";
 
         //split date for delete clock
-        date = resultMostPopular.getPublishedDate().split("T")[0];
+        date = formatDate(resultMostPopular.getPublishedDate().split("T")[0]);
+
 
         if (resultMostPopular.getSubsection() != null && !resultMostPopular.getSubsection().isEmpty()) {
             subsection = " > " + resultMostPopular.getSubsection();
@@ -58,6 +63,20 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
         }
 
         Glide.with(itemView.getContext()).load(url).apply(new RequestOptions().placeholder(R.drawable.ic_launcher_background)).into(imageViewArticle);
+
+    }
+
+    private String formatDate(String stringDate) {
+        SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = spf.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        spf = new SimpleDateFormat("dd/MM/YYYY");
+        stringDate = spf.format(date);
+        return stringDate;
 
     }
 }
