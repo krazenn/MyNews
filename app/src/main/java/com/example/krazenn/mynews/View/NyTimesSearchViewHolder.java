@@ -22,21 +22,21 @@ public class NyTimesSearchViewHolder extends RecyclerView.ViewHolder {
     TextView textViewSection;
     @BindView(R.id.img_article)
     ImageView imageViewArticle;
-    String url = "";
-    String staticUrl = "";
+    private String url = "";
+    private String staticUrl = "";
 
     public NyTimesSearchViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithArticle(Doc resultSearch, RequestManager glide) {
+    public void updateWithArticle(Doc result, RequestManager glide) {
 
 
-        textViewTitle.setText(resultSearch.getSource());
-        textViewSection.setText(resultSearch.getLeadParagraph());
-        if (!resultSearch.getMultimedia().isEmpty()) {
-            url = resultSearch.getMultimedia().get(0).getUrl();
+        textViewTitle.setText(result.getSource());
+        textViewSection.setText(result.getLeadParagraph());
+        if (!result.getMultimedia().isEmpty()) {
+            url = result.getMultimedia().get(0).getUrl();
         }
 
         if (!url.isEmpty()) {

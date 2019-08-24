@@ -35,30 +35,30 @@ public class NyTimesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithArticle(ResultMostPopular resultMostPopular, RequestManager glide) {
+    public void updateWithArticle(ResultMostPopular result, RequestManager glide) {
         String subsection = "";
         String date;
         String url = "";
 
         //split date for delete clock
-        date = formatDate(resultMostPopular.getPublishedDate().split("T")[0]);
+        date = formatDate(result.getPublishedDate().split("T")[0]);
 
 
-        if (resultMostPopular.getSubsection() != null && !resultMostPopular.getSubsection().isEmpty()) {
-            subsection = " > " + resultMostPopular.getSubsection();
+        if (result.getSubsection() != null && !result.getSubsection().isEmpty()) {
+            subsection = " > " + result.getSubsection();
         }
 
-        this.textViewTitle.setText(resultMostPopular.getSection() + subsection);
+        this.textViewTitle.setText(result.getSection() + subsection);
         textViewDate.setText(date);
-        textViewSection.setText(resultMostPopular.getTitle());
-        if (resultMostPopular.getMedia() != null && !resultMostPopular.getMedia().isEmpty()) {
-            url = resultMostPopular.getMedia().get(0).getMediaMetadata().get(0).getUrl();
+        textViewSection.setText(result.getTitle());
+        if (result.getMedia() != null && !result.getMedia().isEmpty()) {
+            url = result.getMedia().get(0).getMediaMetadata().get(0).getUrl();
 
         }
 
-        if (resultMostPopular.getMultimedia() != null && !resultMostPopular.getMultimedia().isEmpty()) {
+        if (result.getMultimedia() != null && !result.getMultimedia().isEmpty()) {
 
-            url = resultMostPopular.getMultimedia().get(0).getUrl();
+            url = result.getMultimedia().get(0).getUrl();
 
         }
 
