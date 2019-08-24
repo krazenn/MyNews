@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +27,9 @@ import com.example.krazenn.mynews.R;
 import com.example.krazenn.mynews.Utils.MyAlarmReceiver;
 import com.example.krazenn.mynews.Utils.NyStreams;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -64,59 +67,39 @@ public class SearchActivity extends AppCompatActivity {
     Switch btnSwitchNotification;
 
 
-    String input_search;
+    String inputSearch;
     String dateStart;
     String dateEnd;
     String section = "";
     int itemId;
     SharedPreferences sharedPreferences;
-    String inputSearch = "";
+    String inputNotif = "";
     Map<String, String> params = new HashMap<>();
-    List<Doc> resultMostPopulars;
+    List<Doc> result;
     String sectionNotification = "";
     private Disposable disposable;
     // 1 - Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
+    List<String> listSectionNotification = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         itemId = getIntent().getIntExtra("tab", 0);
         this.configureToolbar();
+        //setup for Search
         if (itemId == 0) {
-            getSupportActionBar().setTitle("Notification");
-            loadPreferences();
-            buttonSearch.setVisibility(View.GONE);
-            editTextStartDate.setVisibility(View.GONE);
-            editTextEndDate.setVisibility(View.GONE);
-            configureAlarmManager();
-            btnSwitchNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        inputSearch = editTextSearch.getText().toString();
-                        sharedPreferences.edit().putString("editTextSearch", inputSearch).apply();
-                        startAlarm();
-                        sharedPreferences.edit().putBoolean("notification", true).apply();
-
-                    } else {
-                        stopAlarm();
-                        sharedPreferences.edit().putBoolean("notification", false).apply();
-                    }
-                }
-            });
-        }
-        if (itemId == 1) {
             btnSwitchNotification.setVisibility(View.GONE);
             buttonSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    input_search = editTextSearch.getText().toString();
+                    inputSearch = editTextSearch.getText().toString();
                     Intent intent = new Intent(getApplicationContext(), ResultSearchActivity.class);
-                    intent.putExtra("input_search", input_search);
+                    intent.putExtra("input_search", inputSearch);
                     intent.putExtra("date_start", dateStart);
                     intent.putExtra("date_end", dateEnd);
                     intent.putExtra("section", section);
@@ -141,6 +124,32 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
         }
+
+        //setup for notification
+        if (itemId == 1) {
+            getSupportActionBar().setTitle("Notification");
+            loadPreferences();
+            buttonSearch.setVisibility(View.GONE);
+            editTextStartDate.setVisibility(View.GONE);
+            editTextEndDate.setVisibility(View.GONE);
+            configureAlarmManager();
+
+            btnSwitchNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        inputNotif = editTextSearch.getText().toString();
+                        sharedPreferences.edit().putString("editTextNotif", inputNotif).apply();
+                        startAlarm();
+                        sharedPreferences.edit().putBoolean("notification", true).apply();
+
+                    } else {
+                        stopAlarm();
+                        sharedPreferences.edit().putBoolean("notification", false).apply();
+                    }
+                }
+            });
+        }
     }
 
     private void configureToolbar() {
@@ -157,7 +166,7 @@ public class SearchActivity extends AppCompatActivity {
     public void onCheckboxClicked(View view) {
         Gson gson = new Gson();
         List<String> listSection = new ArrayList<>();
-        List<String> listSectionNotification = new ArrayList<>();
+
 
         // Check which checkbox was clicked
 
@@ -190,9 +199,27 @@ public class SearchActivity extends AppCompatActivity {
             section += "\"" + listSection.get(i) + "\"";
         }
         listSectionNotification = listSection;
-
+        saveArrayList(listSectionNotification, "checkbox");
 
         Log.e("section", section);
+    }
+
+    public void saveArrayList(List<String> list, String key) {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();     // This line is IMPORTANT !!!
+    }
+
+    public List<String> getArrayList(String key) {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(key, null);
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+
     }
 
     private void openDatePickerToEditText(final EditText editText, final Boolean startDate) {
@@ -253,43 +280,39 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadPreferences() {
-        sharedPreferences = getSharedPreferences("checkBoxArts", 0);
-        sharedPreferences = getSharedPreferences("checkBoxBusiness", 0);
-        sharedPreferences = getSharedPreferences("checkBoxEntrepreneur", 0);
-        sharedPreferences = getSharedPreferences("checkBoxPolitics", 0);
-        sharedPreferences = getSharedPreferences("checkBoxSport", 0);
-        sharedPreferences = getSharedPreferences("checkBoxTravel", 0);
-        sharedPreferences = getSharedPreferences("notification", 0);
-        sharedPreferences = getSharedPreferences("editTextSearch", 0);
-        editTextSearch.setText(sharedPreferences.getString("editTextSearch", ""));
+        Gson gson = new Gson();
+        listSectionNotification = getArrayList("checkbox");
+        Log.e("listnotif", gson.toJson(listSectionNotification));
 
+        editTextSearch.setText(sharedPreferences.getString("editTextNotif", ""));
+
+        if (listSectionNotification.contains("Arts")) {
+            checkBoxArts.setChecked(true);
+        }
+        if (listSectionNotification.contains("Business")) {
+            checkBoxBusiness.setChecked(true);
+        }
+        if (listSectionNotification.contains("Entrepreneurs")) {
+            checkBoxEntrepreneur.setChecked(true);
+        }
+        if (listSectionNotification.contains("Politics")) {
+            checkBoxPolitics.setChecked(true);
+        }
+        if (listSectionNotification.contains("Sports")) {
+            checkBoxSport.setChecked(true);
+        }
+        if (listSectionNotification.contains("Travel")) {
+            checkBoxTravel.setChecked(true);
+        }
         if (sharedPreferences.getBoolean("notification", false)) {
             btnSwitchNotification.setChecked(true);
         }
 
-        if (sharedPreferences.getBoolean("checkBoxArts", false)) {
-            checkBoxArts.setChecked(true);
-        }
-        if (sharedPreferences.getBoolean("checkBoxBusiness", false)) {
-            checkBoxBusiness.setChecked(true);
-        }
-        if (sharedPreferences.getBoolean("checkBoxEntrepreneur", false)) {
-            checkBoxEntrepreneur.setChecked(true);
-        }
-        if (sharedPreferences.getBoolean("checkBoxPolitics", false)) {
-            checkBoxPolitics.setChecked(true);
-        }
-        if (sharedPreferences.getBoolean("checkBoxSport", false)) {
-            checkBoxSport.setChecked(true);
-        }
-        if (sharedPreferences.getBoolean("checkBoxTravel", false)) {
-            checkBoxTravel.setChecked(true);
-        }
     }
 
     private void executeHttpRequestWithRetrofitSearch() {
 
-        params.put("q", inputSearch);
+        params.put("q", inputNotif);
 
         if (!sectionNotification.isEmpty()) {
             params.put("fq", "news_desk:(" + sectionNotification + ")");
@@ -300,8 +323,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onNext(ArticleList articleLS) {
                 Gson gson = new Gson();
-                resultMostPopulars = articleLS.getResponse().getDocs();
-                Log.e("listNotif", gson.toJson(resultMostPopulars.size()));
+                result = articleLS.getResponse().getDocs();
             }
 
             @Override

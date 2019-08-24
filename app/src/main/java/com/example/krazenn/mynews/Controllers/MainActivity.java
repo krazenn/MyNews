@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.krazenn.mynews.R;
 import com.example.krazenn.mynews.View.PageAdapter;
 
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //FOR DESIGN
@@ -25,13 +27,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private ViewPager pager;
     int itemId;
+    Intent intent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
         // 6 - Configure all views
 
         this.configureToolBar();
@@ -61,10 +64,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         switch (id){
+
             case R.id.activity_main_drawer_top_stories:
                 pager.setCurrentItem(0, true);
                 Toast.makeText(this, "Top Stories", Toast.LENGTH_LONG).show();
                 break;
+
             case R.id.activity_main_drawer_most_popular:
                 pager.setCurrentItem(1, true);
                 Toast.makeText(this, "Most Popular", Toast.LENGTH_LONG).show();
@@ -75,19 +80,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 pager.setCurrentItem(3, true);
                 break;
 
-            case R.id.activity_main_drawer_notification:
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            case R.id.activity_main_drawer_search:
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
                 itemId = 0;
                 intent.putExtra("tab", itemId);
                 startActivity(intent);
-
                 break;
-            case R.id.activity_main_drawer_search:
+
+            case R.id.activity_main_drawer_notification:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
                 itemId = 1;
                 intent.putExtra("tab", itemId);
                 startActivity(intent);
                 break;
+
             default:
                 break;
         }
@@ -147,18 +153,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         switch (item.getItemId()) {
-            case R.id.menu_activity_main_params:
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            case R.id.menu_activity_main_search:
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
                 itemId = 0;
                 intent.putExtra("tab", itemId);
                 startActivity(intent);
                 return true;
-            case R.id.menu_activity_main_search:
+            case R.id.menu_activity_main_params:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
                 itemId = 1;
                 intent.putExtra("tab", itemId);
                 startActivity(intent);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -61,6 +61,7 @@ public class RequestRetrofit {
         });
     }
 
+
     public interface RequestListener {
         void onReceive(ArticleList articleLS);
     }

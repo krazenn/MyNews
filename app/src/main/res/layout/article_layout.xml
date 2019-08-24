@@ -43,7 +43,6 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <!-- TextView Employee Email -->
             <TextView
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_section"

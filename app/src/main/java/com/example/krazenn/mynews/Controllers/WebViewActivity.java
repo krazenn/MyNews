@@ -8,9 +8,12 @@ import android.webkit.WebView;
 
 import com.example.krazenn.mynews.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class WebViewActivity extends AppCompatActivity {
-
+    @BindView(R.id.webView)
     WebView webView;
     String url;
 
@@ -18,7 +21,7 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        webView = findViewById(R.id.webView);
+        ButterKnife.bind(this);
         Intent i = getIntent();
         url = i.getStringExtra("url");
         Log.e("seconde activiter", "Position : " + url);

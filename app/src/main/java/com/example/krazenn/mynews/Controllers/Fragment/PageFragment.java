@@ -47,7 +47,7 @@ public class PageFragment extends Fragment {
     int position;
     //FOR DATA
     private Disposable disposable;
-    private List<ResultMostPopular> resultMostPopulars;
+    private List<ResultMostPopular> result;
     private NyTimesArticleAdapter adapter;
 
     RequestRetrofit requestRetrofit = new RequestRetrofit();
@@ -105,9 +105,9 @@ public class PageFragment extends Fragment {
     private void configureRecyclerView() {
         // 3.1 - Reset list=
         mNews = new ArrayList<>();
-        this.resultMostPopulars = new ArrayList<>();
+        this.result = new ArrayList<>();
         // 3.2 - Create adapter passing the list of article
-        this.adapter = new NyTimesArticleAdapter(this.resultMostPopulars, Glide.with(this));
+        this.adapter = new NyTimesArticleAdapter(this.result, Glide.with(this));
         // 3.3 - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
         // 3.4 - Set layout manager to position the items
@@ -133,7 +133,7 @@ public class PageFragment extends Fragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
-                        String url = resultMostPopulars.get(position).getUrl();
+                        String url = result.get(position).getUrl();
                         Intent intent = new Intent(getContext(), WebViewActivity.class);
                         intent.putExtra("url", url);
                         startActivity(intent);
@@ -162,9 +162,9 @@ public class PageFragment extends Fragment {
         requestRetrofit.setListener(new RequestRetrofit.RequestListener() {
             @Override
             public void onReceive(ArticleList articleLS) {
-                resultMostPopulars.clear();
-                resultMostPopulars = articleLS.getResults();
-                adapter.setData(resultMostPopulars);
+                result.clear();
+                result = articleLS.getResults();
+                adapter.setData(result);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
